@@ -1,10 +1,10 @@
 {
   "name": "good-ipo",
-  "version": "1.0.4",
+  "version": "1.0.8",
   "description": "A command-line tool to fetch and display the latest information about current and upcoming Initial Public Offerings (IPOs) from topsharebrokers.com. Stay informed about investment opportunities with ease. With \"good-ipo\", you can quickly access details about the most anticipated IPOs in a convenient tabular format directly from your terminal. Make informed investment decisions and stay ahead in the stock market.",
   "main": "./src/index.js",
   "bin": {
-    "good-ipo": "./dist/bundle.min.js"
+    "good-ipo": "./dist/bundle.min.cjs"
   },
   "scripts": {
     "build": "webpack --config webpack.config.cjs",
@@ -12,14 +12,14 @@
   },
   "author": "anmol5varma",
   "license": "ISC",
+  "types": "module",
+  "type": "module",
   "dependencies": {
-    "chalk": "^5.3.0",
+    "chalk": "^4.1.2",
     "cheerio": "^1.0.0-rc.12",
-    "node-fetch": "^3.3.2",
+    "node-fetch": "^2.6.12",
     "table": "^6.8.1"
   },
-  "type": "module",
-  "types": "module",
   "devDependencies": {
     "terser-webpack-plugin": "^5.3.9",
     "webpack": "^5.88.2",

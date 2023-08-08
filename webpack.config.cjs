@@ -8,7 +8,7 @@ module.exports = {
     bundle: './src/index.js', // Entry point of your application
   },
   output: {
-    filename: 'bundle.min.js', // Name of the output bundle
+    filename: 'bundle.min.cjs', // Name of the output bundle
     path: __dirname + '/dist', // Output directory
     libraryTarget: 'commonjs', // Add this line
   },
