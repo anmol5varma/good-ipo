@@ -6,6 +6,13 @@
   "bin": {
     "good-ipo": "./dist/bundle.min.cjs"
   },
+  "homepage": "https://github.com/anmol5varma/good-ipo",
+  "repository": {
+    "url": "https://github.com/anmol5varma/good-ipo"
+  },
+  "bugs": {
+    "url": "https://github.com/anmol5varma/good-ipo/issues"
+  },
   "scripts": {
     "build": "webpack --config webpack.config.cjs",
     "start": "node ./src/index.js"
