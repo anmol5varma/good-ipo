@@ -1,0 +1,11 @@
+node_modules
+.DS_Store
+.vscode
+
+src
+
+.gitignore
+
+webpack.config.cjs
+package.json
+package-lock.json
