@@ -65,7 +65,7 @@ If you would like to contribute to the `good-ipo` package or report any issues, 
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](https://github.com/yourusername/good-ipo/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/anmol5varma/good-ipo/blob/main/LICENSE) file for details.
 
 ---
 

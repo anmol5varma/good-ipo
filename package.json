@@ -18,7 +18,7 @@
     "start": "node ./src/index.js"
   },
   "author": "anmol5varma",
-  "license": "ISC",
+  "license": "MIT",
   "types": "module",
   "type": "module",
   "dependencies": {
