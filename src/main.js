@@ -3,9 +3,9 @@ import Fetch from "node-fetch";
 import { table as Table } from 'table';
 import Chalk from 'chalk';
 
-import {COLUMN_NAME, IPO_DAHBOARD_URL} from './constant.js'
+import { COLUMN_NAME, IPO_DAHBOARD_URL } from './constant.js'
 
-const getRawData = (url) => {
+const getRawData = async (url) => {
     return Fetch(url)
         .then((response) => response.text())
         .then((data) => {
@@ -37,18 +37,19 @@ const todayOrTomorrowLastDay = closeDate => {
 
 const getCurrentIPOs = (data) => {
     return data
-        .filter(({ name }) => name.endsWith('Open'))
+        .filter(({ name }) => name.endsWith('Open') || name.includes('Closing Today'))
         .map((ipo) => {
             if (todayOrTomorrowLastDay(ipo.close))
-                return { ...ipo, name: Chalk.bgRed(ipo.name) }
-            return ipo
+                return { ...ipo, close: Chalk.bgRed(ipo.close) }
+            return { ...ipo }
         })
-        .sort((a, b) => new Date(a.open) - new Date(a.close))
+        .sort((a, b) => new Date(a.open) - new Date(b.close))
 }
 
 const getUpcomingIPOs = (data) => {
     return data
-        .filter(({ name }) => name.endsWith('Upcoming')).sort((a, b) => new Date(a.open) - new Date(a.close))
+        .filter(({ name }) => name.endsWith('Upcoming'))
+        .sort((a, b) => new Date(a.open) - new Date(b.close))
 }
 
 const printOutput = data => {
@@ -58,7 +59,7 @@ const printOutput = data => {
     console.log(Table([Headers, ...tableData]));
 }
 
-export const main = async () => {
+const main = async () => {
     const page = await getRawData(IPO_DAHBOARD_URL)
     const $ = Cheerio.load(page);
     const table = $('#mainTable');
@@ -67,3 +68,5 @@ export const main = async () => {
     const upcomingIPOs = getUpcomingIPOs(tableData)
     printOutput(currentIPOs.concat(upcomingIPOs));
 }
+
+main();

@@ -1,2 +1,3 @@
-import { main } from './main.js'
-main();
+#!/usr/bin/env node
+
+import './main.js'
