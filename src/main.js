@@ -32,12 +32,12 @@ const scrapeDataFromTable = ($, table) => {
 const todayOrTomorrowLastDay = closeDate => {
     const currentDate = new Date();
     const closingDate = new Date(closeDate);
-    return closingDate.getMonth() === currentDate.getMonth() && currentDate.getDate() - closingDate.getDate() <= 1
+    return closingDate.getMonth() === currentDate.getMonth() && closingDate.getDate() - currentDate.getDate() <= 1
 }
 
 const getCurrentIPOs = (data) => {
     return data
-        .filter(({ name }) => name.endsWith('Open') || name.includes('Closing Today'))
+        .filter(({ name }) => name.endsWith('Open') || name.includes('Closing Today') || name.includes('Open ('))
         .map((ipo) => {
             if (todayOrTomorrowLastDay(ipo.close))
                 return { ...ipo, close: Chalk.bgRed(ipo.close) }
