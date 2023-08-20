@@ -1,5 +1,6 @@
-export const IPO_DAHBOARD_URL = "https://www.topsharebrokers.com/report/live-ipo-gmp/331/?ref=chr"
-export const COLUMN_NAME = {
+export const IPO_DASHBOARD_URL = "https://www.topsharebrokers.com"
+export const IPO_DASHBOARD_ENDPOINT = "/report/live-ipo-gmp/331/?ref=chr"
+export const IPO_LIST_COLUMN_NAME = {
     0: 'name',
     1: 'price',
     2: 'gmp',
