@@ -22,12 +22,13 @@ const getSubscriptionDetails = async (link) => {
 
     // length can be 5(sme) or 8(ipo)
     // show RII, NII
-    const rowData = { rii: '', nii: '', others: '', total: '' }
+    const rowData = { rii: '', nii: '', qib: '', others: '', total: '' }
     if (cellArray.length === 8) {
         cellArray.each((cellIndex, cell) => {
-            if ([3, 4, 5, 6, 7].includes(cellIndex)) {
+            if ([2, 3, 4, 5, 6, 7].includes(cellIndex)) {
                 const cellData = $(cell).text().trim();
                 switch (cellIndex) {
+                    case 2: rowData.qib = cellData; break;
                     case 3: rowData.nii = cellData; break;
                     case 4: rowData.others = 'sNII: ' + cellData; break;
                     case 5: rowData.others += ', bNII: ' + cellData; break;
@@ -45,6 +46,19 @@ const getSubscriptionDetails = async (link) => {
                     case 2: rowData.nii = cellData; break;
                     case 3: rowData.rii = cellData; break;
                     case 4: rowData.total = cellData; break;
+                    default: rowData = rowData;
+                }
+            }
+        })
+    } else if (cellArray.length === 6) {
+        cellArray.each((cellIndex, cell)=>{
+            if ([2, 3, 4, 5].includes(cellIndex)) {
+                const cellData = $(cell).text().trim();
+                switch (cellIndex) {
+                    case 2: rowData.qib = cellData; break;
+                    case 3: rowData.nii = cellData; break;
+                    case 4: rowData.rii = cellData; break;
+                    case 5: rowData.total = cellData; break;
                     default: rowData = rowData;
                 }
             }
@@ -104,9 +118,10 @@ const getUpcomingIPOs = (data) => {
 
 const fetchSubscriptionDetails = async (data) => {
     return Promise.all(data.map(async (ipoEntry, i) => {
-        const { link, ...otherDetails } = ipoEntry;
+        const { link, name, ...otherDetails } = ipoEntry;
         const subscriptionDetails = await getSubscriptionDetails(link);
-        return { ...otherDetails, ...subscriptionDetails };
+        const type = name.includes('IPO') ? Chalk.bgYellow('IPO') : name.includes('SME') ? Chalk.bgCyan('SME') : ''
+        return { name, type, ...otherDetails, ...subscriptionDetails };
     }))
 }
 
