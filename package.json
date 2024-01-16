@@ -1,6 +1,6 @@
 {
   "name": "good-ipo",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "A command-line tool to fetch and display the latest information about current and upcoming Initial Public Offerings (IPOs) from topsharebrokers.com. Stay informed about investment opportunities with ease. With \"good-ipo\", you can quickly access details about the most anticipated IPOs in a convenient tabular format directly from your terminal. Make informed investment decisions and stay ahead in the stock market.",
   "main": "./dist/index.js",
   "bin": {
@@ -15,7 +15,8 @@
   },
   "scripts": {
     "build": "webpack --config webpack.config.cjs",
-    "start": "node ./src/index.js"
+    "start": "node ./src/index.js",
+    "deploy": "npm run build && npm publish"
   },
   "author": "anmol5varma",
   "license": "MIT",
