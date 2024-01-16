@@ -5,6 +5,8 @@ import Chalk from 'chalk';
 
 import { IPO_LIST_COLUMN_NAME, IPO_DASHBOARD_URL, IPO_DASHBOARD_ENDPOINT } from './constant.js'
 
+const isCliTrigger = import.meta.main === import.meta.url
+
 const getRawData = async (url) => {
     return Fetch(url)
         .then((response) => response.text())
@@ -51,7 +53,8 @@ const getSubscriptionDetails = async (link) => {
             }
         })
     } else if (cellArray.length === 6) {
-        cellArray.each((cellIndex, cell)=>{
+        console.log('Cell array: ', cellArray);
+        cellArray.each((cellIndex, cell) => {
             if ([2, 3, 4, 5].includes(cellIndex)) {
                 const cellData = $(cell).text().trim();
                 switch (cellIndex) {
@@ -63,6 +66,7 @@ const getSubscriptionDetails = async (link) => {
                 }
             }
         })
+        console.log('Row data: ', rowData);
     }
     return rowData
 }
@@ -121,7 +125,10 @@ const fetchSubscriptionDetails = async (data) => {
         const { link, name, ...otherDetails } = ipoEntry;
         const subscriptionDetails = await getSubscriptionDetails(link);
         const type = name.includes('IPO') ? Chalk.bgYellow('IPO') : name.includes('SME') ? Chalk.bgCyan('SME') : ''
-        return { name, type, ...otherDetails, ...subscriptionDetails };
+        if (isCliTrigger)
+            return { name, type, ...otherDetails, ...subscriptionDetails };
+        else
+            return { name, type, link: IPO_DASHBOARD_URL + link.replace("/gmp/", "/subscription/").replace("-gmp/", "-subscriptions/"), ...otherDetails, ...subscriptionDetails };
     }))
 }
 
@@ -141,7 +148,14 @@ const main = async () => {
     const data = tableData.map((row, i) => ({ ...row, link: tableLink[i] }))
     const currentIPOs = getCurrentIPOs(data)
     const upcomingIPOs = getUpcomingIPOs(data)
-    printOutput(await fetchSubscriptionDetails(currentIPOs.concat(upcomingIPOs)));
+    const subscriptionData = await fetchSubscriptionDetails(currentIPOs.concat(upcomingIPOs))
+    if (isCliTrigger)
+        printOutput(subscriptionData);
+    else
+        return subscriptionData;
 }
 
-main();
+if (isCliTrigger)
+    main();
+
+export default main;
