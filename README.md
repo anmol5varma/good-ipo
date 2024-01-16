@@ -59,29 +59,6 @@ Data is fetched from https://www.topsharebrokers.com/report/live-ipo-gmp/331/?re
 
 In this example, the first IPO ("ABC Ltd") has a red background color because its closing date is tomorrow.
 
-## Development
-We also export a default function that you can import to get a JSON. The JSON format is 
-```
-[
-    {
-        name: 'ABC IPOUpcoming',
-        type: 'IPO',
-        link: '/gmp/jyoti-cnc-automation-ipo-gmp/734/',
-        price: '331',
-        gmp: '77',
-        listing: '408 (23.26%)',
-        open: '9-Jan',
-        close: '11-Jan',
-        rii: '',
-        nii: '',
-        qib: '',
-        others: '',
-        total: ''
-    }
-]
-```
-_type:_ Possible values are IPO | SME
-
 ## Contributing
 
 If you would like to contribute to the `good-ipo` package or report any issues, please visit the GitHub repository: [https://github.com/anmol5varma/good-ipo](https://github.com/anmol5varma/good-ipo)

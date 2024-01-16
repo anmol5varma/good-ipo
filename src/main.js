@@ -5,7 +5,7 @@ import Chalk from 'chalk';
 
 import { IPO_LIST_COLUMN_NAME, IPO_DASHBOARD_URL, IPO_DASHBOARD_ENDPOINT } from './constant.js'
 
-const isCliTrigger = import.meta.main === import.meta.url
+const isCliTrigger = true
 
 const getRawData = async (url) => {
     return Fetch(url)
@@ -53,7 +53,6 @@ const getSubscriptionDetails = async (link) => {
             }
         })
     } else if (cellArray.length === 6) {
-        console.log('Cell array: ', cellArray);
         cellArray.each((cellIndex, cell) => {
             if ([2, 3, 4, 5].includes(cellIndex)) {
                 const cellData = $(cell).text().trim();
@@ -66,7 +65,6 @@ const getSubscriptionDetails = async (link) => {
                 }
             }
         })
-        console.log('Row data: ', rowData);
     }
     return rowData
 }
