@@ -20,52 +20,32 @@ const getSubscriptionDetails = async (link) => {
     const subscriptionPage = await getRawData(IPO_DASHBOARD_URL + subscriptionsLink);
     const $ = Cheerio.load(subscriptionPage);
     const table = $('.tsb-table');
+    const cellTitle = table.find('tr').first().find('th')
     const cellArray = table.find('tr').last().find('td')
 
-    // length can be 5(sme) or 8(ipo)
-    // show RII, NII
-    const rowData = { rii: '', nii: '', qib: '', others: '', total: '' }
-    if (cellArray.length === 8) {
-        cellArray.each((cellIndex, cell) => {
-            if ([2, 3, 4, 5, 6, 7].includes(cellIndex)) {
-                const cellData = $(cell).text().trim();
-                switch (cellIndex) {
-                    case 2: rowData.qib = cellData; break;
-                    case 3: rowData.nii = cellData; break;
-                    case 4: rowData.others = 'sNII: ' + cellData; break;
-                    case 5: rowData.others += ', bNII: ' + cellData; break;
-                    case 6: rowData.rii = cellData; break;
-                    case 7: rowData.total = cellData; break;
-                    default: rowData = rowData;
-                }
-            }
-        })
-    } else if (cellArray.length === 5) {
-        cellArray.each((cellIndex, cell) => {
-            if ([2, 3, 4].includes(cellIndex)) {
-                const cellData = $(cell).text().trim();
-                switch (cellIndex) {
-                    case 2: rowData.nii = cellData; break;
-                    case 3: rowData.rii = cellData; break;
-                    case 4: rowData.total = cellData; break;
-                    default: rowData = rowData;
-                }
-            }
-        })
-    } else if (cellArray.length === 6) {
-        cellArray.each((cellIndex, cell) => {
-            if ([2, 3, 4, 5].includes(cellIndex)) {
-                const cellData = $(cell).text().trim();
-                switch (cellIndex) {
-                    case 2: rowData.qib = cellData; break;
-                    case 3: rowData.nii = cellData; break;
-                    case 4: rowData.rii = cellData; break;
-                    case 5: rowData.total = cellData; break;
-                    default: rowData = rowData;
-                }
-            }
-        })
+    const titles = new Array(cellTitle.length)
+
+    cellTitle.each((index, cell) => {
+        titles[index] = $(cell).text().trim()
+    })
+
+    // need to define this object so columns are same in the table log
+    const rowData = { qib: '', nii: '', rii: '', others: '', total: '' }
+    const KEY_LIST = ['SNII', 'BNII', 'RII', 'NII', 'QIB', 'Total']
+
+    cellArray.each((cellIndex, cell) => {
+        const cellData = $(cell).text().trim();
+        const titleKey = KEY_LIST.find(val => titles[cellIndex]?.includes(val))
+        if (titleKey)
+            rowData[titleKey.toLowerCase()] = cellData
+    })
+
+    if (rowData.snii || rowData.bnii) {
+        rowData.others = `sNII: ${rowData.snii}, bNII: ${rowData.bnii}`
+        delete rowData.snii
+        delete rowData.bnii
     }
+    console.log(rowData);
     return rowData
 }
 
