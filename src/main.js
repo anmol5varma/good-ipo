@@ -45,7 +45,6 @@ const getSubscriptionDetails = async (link) => {
         delete rowData.snii
         delete rowData.bnii
     }
-    console.log(rowData);
     return rowData
 }
 
