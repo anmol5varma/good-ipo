@@ -1,29 +1,21 @@
 import axios from 'axios';
 import { IPO_BACKEND_URL, IPO_DASHBOARD_URL } from './constant.js'
-import Chalk from 'chalk';
-import { todayOrTomorrowLastDay } from './utils.js';
 
 const transformData = (data) => data.reduce((acc, e) => {
-
     const status = extractStringFromHTML(e['Status'])
-    const type = e['~IPO_Category'] === 'IPO' ? Chalk.bgYellow('IPO') : Chalk.bgCyan('SME')
-
     if (!status || status.startsWith('Close'))
         return acc
-
-    const close = todayOrTomorrowLastDay(e['Close']) ? Chalk.bgRed(e['Close']) : e['Close']
-        
 
     return acc.concat({
         id: e['~id'],
         name: e['IPO'],
-        type: type,
+        type: e['~IPO_Category'],
         price: e['Price'],
         gmp: extractStringFromHTML(e['GMP']),
         listing: extractStringFromHTML(e['Est Listing']),
         open: e['Open'],
-        close,
-        status: status,
+        close: e['Close'],
+        status,
         link: IPO_DASHBOARD_URL + e['~urlrewrite_folder_name'],
         last_update: e['GMP Updated'],
     })
