@@ -8,11 +8,11 @@
     "require": "./dist/main.cjs"
   },
   "bin": {
-    "good-ipo": "./dist/bundle.min.cjs"
+    "good-ipo": "dist/bundle.min.cjs"
   },
   "homepage": "https://github.com/anmol5varma/good-ipo",
   "repository": {
-    "url": "https://github.com/anmol5varma/good-ipo"
+    "url": "git+https://github.com/anmol5varma/good-ipo.git"
   },
   "bugs": {
     "url": "https://github.com/anmol5varma/good-ipo/issues"
