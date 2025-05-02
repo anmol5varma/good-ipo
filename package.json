@@ -1,8 +1,12 @@
 {
   "name": "good-ipo",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "A command-line tool to fetch and display the latest information about current and upcoming Initial Public Offerings (IPOs) from topsharebrokers.com. Stay informed about investment opportunities with ease. With \"good-ipo\", you can quickly access details about the most anticipated IPOs in a convenient tabular format directly from your terminal. Make informed investment decisions and stay ahead in the stock market.",
-  "main": "./dist/index.js",
+  "main": "./dist/main.cjs",
+  "exports": {
+    "import": "./dist/main.js",
+    "require": "./dist/main.cjs"
+  },
   "bin": {
     "good-ipo": "./dist/bundle.min.cjs"
   },
@@ -14,24 +18,28 @@
     "url": "https://github.com/anmol5varma/good-ipo/issues"
   },
   "scripts": {
-    "build": "webpack --config webpack.config.cjs",
+    "build": "rollup -c",
     "start": "node ./src/index.js",
     "deploy": "npm run build && npm publish"
   },
   "author": "anmol5varma",
   "license": "MIT",
-  "types": "module",
   "type": "module",
   "dependencies": {
+    "axios": "^1.9.0",
     "chalk": "^4.1.2",
     "cheerio": "^1.0.0-rc.12",
     "node-fetch": "^2.6.12",
     "table": "^6.8.1"
   },
   "devDependencies": {
-    "terser-webpack-plugin": "^5.3.9",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4"
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
+    "rollup": "^4.40.1",
+    "rollup-plugin-esbuild": "^6.2.1",
+    "rollup-plugin-preserve-shebang": "^1.0.1"
   },
   "keywords": [
     "ipo",
