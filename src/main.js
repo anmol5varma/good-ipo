@@ -3,7 +3,7 @@ import { IPO_BACKEND_URL, IPO_DASHBOARD_URL } from './constant.js'
 
 const transformData = (data) => data.reduce((acc, e) => {
     const status = extractStringFromHTML(e['Status'])
-    if (!status || status.startsWith('Close'))
+    if (!status || status.startsWith('Close') || status === 'Withdrawn')
         return acc
 
     return acc.concat({
