@@ -69,12 +69,11 @@ const getSubscriptionDetails = async (ipo) => {
     const subscriptionData = response?.data?.data?.ipoBiddingData
     const latestSubscriptionData = subscriptionData[subscriptionData.length - 1]
 
-    return { ...ipo, nii: latestSubscriptionData.nii, rii: latestSubscriptionData.rii, qib: latestSubscriptionData.qib, total: latestSubscriptionData.total }
+    return { ...ipo, nii: latestSubscriptionData?.nii ?? '-', rii: latestSubscriptionData?.rii ?? '-', qib: latestSubscriptionData?.qib ?? '-', total: latestSubscriptionData?.total ?? '-' }
 }
 
 const main = async () => {
     const list = await getIPOList()
-    const res = []
     return Promise.all(list.map(getSubscriptionDetails))
 }
 
