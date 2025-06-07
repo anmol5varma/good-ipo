@@ -2,23 +2,27 @@ import axios from 'axios';
 import { IPO_BACKEND_URL, IPO_DASHBOARD_URL } from './constant.js'
 
 const transformData = (data) => data.reduce((acc, e) => {
-    const status = extractStringFromHTML(e['Status'])
-    if (!status || status.startsWith('Close') || status === 'Withdrawn')
-        return acc
+    try {
+        const status = extractStringFromHTML(e['Status'])
+        if (!status || status?.startsWith('Close') || status === 'Withdrawn')
+            return acc
 
-    return acc.concat({
-        id: e['~id'],
-        name: e['IPO'],
-        type: e['~IPO_Category'],
-        price: e['Price'],
-        gmp: extractStringFromHTML(e['GMP']),
-        listing: extractStringFromHTML(e['Est Listing']),
-        open: e['Open'],
-        close: e['Close'],
-        status,
-        link: IPO_DASHBOARD_URL + e['~urlrewrite_folder_name'],
-        last_update: e['GMP Updated'],
-    })
+        return acc.concat({
+            id: e['~id'],
+            name: e['IPO'],
+            type: e['~IPO_Category'],
+            price: e['Price'],
+            gmp: extractStringFromHTML(e['GMP']),
+            listing: extractStringFromHTML(e['Est Listing']),
+            open: e['Open'],
+            close: e['Close'],
+            status,
+            link: IPO_DASHBOARD_URL + e['~urlrewrite_folder_name'],
+            last_update: e['GMP Updated'],
+        })
+    } catch (error) {
+        return acc;
+    }
 }, [])
 
 const extractStringFromHTML = html => (html.match(/>(.*?)</)?.[1] || '').trim()
