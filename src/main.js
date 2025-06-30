@@ -1,19 +1,37 @@
 import axios from 'axios';
 import { IPO_BACKEND_URL, IPO_DASHBOARD_URL } from './constant.js'
 
+const IPO_STATUS = {
+    UPCOMING: 'Upcoming',
+    OPEN: 'Open',
+    CLOSED: 'Closed'
+}
+
+const getIPOStatus = (startDate, endDate) => {
+    if(!startDate || !endDate) {
+        return '';
+    }
+    const now = new Date();
+    const start = new Date(startDate+`T00:00:00Z`);
+    const end = new Date(endDate+`T18:29:59Z`);
+    return now < start ? IPO_STATUS.UPCOMING :
+        now >= start && now <= end ? IPO_STATUS.OPEN :
+        now > end ? IPO_STATUS.CLOSED : '';
+}
+
 const transformData = (data) => data.reduce((acc, e) => {
     try {
-        const status = extractStringFromHTML(e['Status'])
-        if (!status || status?.startsWith('Close') || status === 'Withdrawn')
+        const status = getIPOStatus(e['~Srt_Open'], e['~Srt_Close']);
+        if ([IPO_STATUS.CLOSED].includes(status))
             return acc
 
         return acc.concat({
             id: e['~id'],
-            name: e['IPO'],
+            name: extractStringFromHTML(e['Name']),
             type: e['~IPO_Category'],
             price: e['Price'],
             gmp: extractStringFromHTML(e['GMP']),
-            listing: extractStringFromHTML(e['Est Listing']),
+            listing: extractStringFromHTML(e['Listing']),
             open: e['Open'],
             close: e['Close'],
             status,
