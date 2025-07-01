@@ -20,7 +20,7 @@ const getIPOStatus = (startDate, endDate) => {
 }
 
 const transformData = (data) => data.reduce((acc, e) => {
-    try {
+    try {        
         const status = getIPOStatus(e['~Srt_Open'], e['~Srt_Close']);
         if ([IPO_STATUS.CLOSED].includes(status))
             return acc
@@ -31,7 +31,7 @@ const transformData = (data) => data.reduce((acc, e) => {
             type: e['~IPO_Category'],
             price: e['Price'],
             gmp: extractStringFromHTML(e['GMP']),
-            listing: extractStringFromHTML(e['Listing']),
+            listing: extractStringFromHTML(e['Est Listing']),
             open: e['Open'],
             close: e['Close'],
             status,
