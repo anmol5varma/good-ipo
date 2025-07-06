@@ -1,6 +1,6 @@
 {
   "name": "good-ipo",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "A command-line tool to fetch and display the latest information about current and upcoming Initial Public Offerings (IPOs) from topsharebrokers.com. Stay informed about investment opportunities with ease. With \"good-ipo\", you can quickly access details about the most anticipated IPOs in a convenient tabular format directly from your terminal. Make informed investment decisions and stay ahead in the stock market.",
   "main": "./dist/main.cjs",
   "exports": {

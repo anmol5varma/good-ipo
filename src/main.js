@@ -35,6 +35,7 @@ const transformData = (data) => data.reduce((acc, e) => {
             open: e['Open'],
             close: e['Close'],
             status,
+            pe: e['~P/E'],
             link: IPO_DASHBOARD_URL + e['~urlrewrite_folder_name'],
             last_update: e['GMP Updated'],
         })
