@@ -8,19 +8,19 @@ const IPO_STATUS = {
 }
 
 const getIPOStatus = (startDate, endDate) => {
-    if(!startDate || !endDate) {
+    if (!startDate || !endDate) {
         return '';
     }
     const now = new Date();
-    const start = new Date(startDate+`T00:00:00Z`);
-    const end = new Date(endDate+`T18:29:59Z`);
+    const start = new Date(startDate + `T00:00:00Z`);
+    const end = new Date(endDate + `T18:29:59Z`);
     return now < start ? IPO_STATUS.UPCOMING :
         now >= start && now <= end ? IPO_STATUS.OPEN :
-        now > end ? IPO_STATUS.CLOSED : '';
+            now > end ? IPO_STATUS.CLOSED : '';
 }
 
 const transformData = (data) => data.reduce((acc, e) => {
-    try {        
+    try {
         const status = getIPOStatus(e['~Srt_Open'], e['~Srt_Close']);
         if ([IPO_STATUS.CLOSED].includes(status))
             return acc
@@ -78,7 +78,7 @@ const getIPOList = async () => {
 
 const getSubscriptionDetails = async (ipo) => {
     if (ipo.status === "Upcoming")
-        return { ...ipo, nii: '-', rii: '-', qib: '-', total: '-' }
+        return { ...ipo, nii: '-', nii_big: '-', nii_small: '-', rii: '-', qib: '-', total: '-' }
     const config = {
         method: 'get',
         maxBodyLength: Infinity,
@@ -92,12 +92,22 @@ const getSubscriptionDetails = async (ipo) => {
     const subscriptionData = response?.data?.data?.ipoBiddingData
     const latestSubscriptionData = subscriptionData[subscriptionData.length - 1]
 
-    return { ...ipo, nii: latestSubscriptionData?.nii ?? '-', rii: latestSubscriptionData?.rii ?? '-', qib: latestSubscriptionData?.qib ?? '-', total: latestSubscriptionData?.total ?? '-' }
+    return {
+        ...ipo,
+        nii_big: latestSubscriptionData?.nii_big ?? '-',
+        nii_small: latestSubscriptionData?.nii_small ?? '-',
+        nii: latestSubscriptionData?.nii ?? '-',
+        rii: latestSubscriptionData?.rii ?? '-',
+        qib: latestSubscriptionData?.qib ?? '-',
+        total: latestSubscriptionData?.total ?? '-'
+    }
 }
 
 const main = async () => {
     const list = await getIPOList()
     return Promise.all(list.map(getSubscriptionDetails))
 }
+
+main()
 
 export default main;
