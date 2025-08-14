@@ -40,11 +40,13 @@ const transformData = (data) => data.reduce((acc, e) => {
             last_update: e['GMP Updated'],
         })
     } catch (error) {
+        console.log(error);
+        
         return acc;
     }
 }, [])
 
-const extractStringFromHTML = html => (html.match(/>(.*?)</)?.[1] || '').trim()
+const extractStringFromHTML = html => (html?.match(/>(.*?)</)?.[1] || '').trim()
 
 const generateUrl = () => {
     const now = new Date();
@@ -108,6 +110,6 @@ const main = async () => {
     return Promise.all(list.map(getSubscriptionDetails))
 }
 
-main()
+// main().then(console.log).catch(console.error);
 
 export default main;
